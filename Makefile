@@ -1,128 +1,101 @@
-#
-#  There exist several targets which are by default empty and which can be 
-#  used for execution of your targets. These targets are usually executed 
-#  before and after some main targets. They are: 
-#
-#     .build-pre:              called before 'build' target
-#     .build-post:             called after 'build' target
-#     .clean-pre:              called before 'clean' target
-#     .clean-post:             called after 'clean' target
-#     .clobber-pre:            called before 'clobber' target
-#     .clobber-post:           called after 'clobber' target
-#     .all-pre:                called before 'all' target
-#     .all-post:               called after 'all' target
-#     .help-pre:               called before 'help' target
-#     .help-post:              called after 'help' target
-#
-#  Targets beginning with '.' are not intended to be called on their own.
-#
-#  Main targets can be executed directly, and they are:
-#  
-#     build                    build a specific configuration
-#     clean                    remove built files from a configuration
-#     clobber                  remove all built files
-#     all                      build all configurations
-#     help                     print help mesage
-#  
-#  Targets .build-impl, .clean-impl, .clobber-impl, .all-impl, and
-#  .help-impl are implemented in nbproject/makefile-impl.mk.
-#
-#  Available make variables:
-#
-#     CND_BASEDIR                base directory for relative paths
-#     CND_DISTDIR                default top distribution directory (build artifacts)
-#     CND_BUILDDIR               default top build directory (object files, ...)
-#     CONF                       name of current configuration
-#     CND_PLATFORM_${CONF}       platform name (current configuration)
-#     CND_ARTIFACT_DIR_${CONF}   directory of build artifact (current configuration)
-#     CND_ARTIFACT_NAME_${CONF}  name of build artifact (current configuration)
-#     CND_ARTIFACT_PATH_${CONF}  path to build artifact (current configuration)
-#     CND_PACKAGE_DIR_${CONF}    directory of package (current configuration)
-#     CND_PACKAGE_NAME_${CONF}   name of package (current configuration)
-#     CND_PACKAGE_PATH_${CONF}   path to package (current configuration)
-#
-# NOCDDL
+BUILDDIR=Build
+DISTDIR=Dist
 
-
-# Environment 
+# Environment
 MKDIR=mkdir
 CP=cp
-CCADMIN=CCadmin
+CC=gcc
+CCC=g++
+CXX=g++
 
+# Project Name
+PROJECTNAME=maya
+
+# Active Configuration
+DEFAULTCONF=Debug
+CONF=${DEFAULTCONF}
+
+# All Configurations
+ALLCONFS=Debug Release 
 
 # build
-build: .build-post
-
-.build-pre:
-# Add your pre 'build' code here...
-
-.build-post: .build-impl
-# Add your post 'build' code here...
-
+build: .validate-impl .depcheck-impl
+	@#echo "=> Running $@... Configuration=$(CONF)"
+	"${MAKE}" -f Makefile-${CONF}.mk QMAKE=${QMAKE} .build-conf
 
 # clean
-clean: .clean-post
-
-.clean-pre:
-# Add your pre 'clean' code here...
-
-.clean-post: .clean-impl
-# Add your post 'clean' code here...
+clean: .validate-impl .depcheck-impl
+	@#echo "=> Running $@... Configuration=$(CONF)"
+	"${MAKE}" -f Makefile-${CONF}.mk QMAKE=${QMAKE}  .clean-conf
 
 
 # clobber
-clobber: .clobber-post
-
-.clobber-pre:
-# Add your pre 'clobber' code here...
-
-.clobber-post: .clobber-impl
-# Add your post 'clobber' code here...
-
+clobber: .depcheck-impl
+	@#echo "=> Running $@..."
+	for CONF in ${ALLCONFS}; \
+	do \
+	    "${MAKE}" -f Makefile-$${CONF}.mk QMAKE=${QMAKE} .clean-conf; \
+	done
 
 # all
-all: .all-post
-
-.all-pre:
-# Add your pre 'all' code here...
-
-.all-post: .all-impl
-# Add your post 'all' code here...
-
-
-# build tests
-build-tests: .build-tests-post
-
-.build-tests-pre:
-# Add your pre 'build-tests' code here...
-
-.build-tests-post: .build-tests-impl
-# Add your post 'build-tests' code here...
-
-
-# run tests
-test: .test-post
-
-.test-pre: build-tests
-# Add your pre 'test' code here...
-
-.test-post: .test-impl
-# Add your post 'test' code here...
+all: .depcheck-impl
+	@#echo "=> Running $@..."
+	for CONF in ${ALLCONFS}; \
+	do \
+	    "${MAKE}" -f Makefile-$${CONF}.mk QMAKE=${QMAKE} .build-conf; \
+	done
 
 
 # help
-help: .help-post
+help: 
+	@echo "This makefile supports the following configurations:"
+	@echo "    ${ALLCONFS}"
+	@echo ""
+	@echo "and the following targets:"
+	@echo "    build  (default target)"
+	@echo "    clean"
+	@echo "    clobber"
+	@echo "    all"
+	@echo "    help"
+	@echo ""
+	@echo "Makefile Usage:"
+	@echo "    make [CONF=<CONFIGURATION>] build"
+	@echo "    make [CONF=<CONFIGURATION>] clean"
+	@echo "    make clobber"
+	@echo "    make all"
+	@echo "    make help"
+	@echo ""
+	@echo "Target 'build' will build a specific configuration."
+	@echo "Target 'clean' will clean a specific configuration."
+	@echo "Target 'clobber' will remove all built files from all configurations."
+	@echo "Target 'all' will will build all configurations."
+	@echo "Target 'help' prints this message."
+	@echo ""
 
-.help-pre:
-# Add your pre 'help' code here...
+# dependency checking support
+.depcheck-impl:
+	@echo "# This code depends on make tool being used" >.dep.inc
+	@if [ -n "${MAKE_VERSION}" ]; then \
+	    echo "DEPFILES=\$$(wildcard \$$(addsuffix .d, \$${OBJECTFILES} \$${TESTOBJECTFILES}))" >>.dep.inc; \
+	    echo "ifneq (\$${DEPFILES},)" >>.dep.inc; \
+	    echo "include \$${DEPFILES}" >>.dep.inc; \
+	    echo "endif" >>.dep.inc; \
+	else \
+	    echo ".KEEP_STATE:" >>.dep.inc; \
+	    echo ".KEEP_STATE_FILE:.make.state.\$${CONF}" >>.dep.inc; \
+	fi
 
-.help-post: .help-impl
-# Add your post 'help' code here...
-
-
-
-# include project implementation makefile
-include nbproject/Makefile-impl.mk
-
-# include project make variables
-include nbproject/Makefile-variables.mk
+# configuration validation
+.validate-impl:
+	@if [ ! -f Makefile-${CONF}.mk ]; \
+	then \
+	    echo ""; \
+	    echo "Error: can not find the makefile for configuration '${CONF}' in project ${PROJECTNAME}"; \
+	    echo "See 'make help' for details."; \
+	    echo "Current directory: " `pwd`; \
+	    echo ""; \
+	fi
+	@if [ ! -f Makefile-${CONF}.mk ]; \
+	then \
+	    exit 1; \
+	fi
