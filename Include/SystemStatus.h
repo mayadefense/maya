@@ -82,6 +82,7 @@ private:
     std::vector<bool> unitStatus, physicalUnitStatus;
     std::vector<uint32_t> unitIds, physicalUnitIds;
     std::string name;
+    std::string presentCPUCoreFileName = "/sys/devices/system/cpu/present";
 };
 
 #endif /* SYSTEMSTATUS_H */

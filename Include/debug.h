@@ -20,10 +20,10 @@
 #ifndef DEBUG_H
 #define DEBUG_H
 
-#ifdef DEBUG
-#undef DEBUG
-#endif
-//#define DEBUG
+//#ifdef DEBUG
+//#undef DEBUG
+//#idefine DEBUG
+//#endif
 
 #endif /* DEBUG_H */
 

@@ -31,20 +31,15 @@
 
 std::map<std::string, std::string> parseArgs(int argc, char **argv) {
     std::map<std::string, std::string> args;
-    std::vector<std::string> words;
-    std::istringstream iss(argv);
+    std::vector<std::string> words(argv + 1, argv + argc);//gather all words as a vector of strings
     std::string word, arg_name, arg_val;
     bool prevWordIsArgName = false, error = false;
-
-    //gather all words as a vector of strings
-    while (iss >> word) {
-        words.push_back(word);
-    }
+    
     //find the arg_name, arg_val pairs
     for (auto i = 0; i < words.size(); i++) {
         word = words[i];
         //if we detect a keyword
-        if (std::strncmp(word, "--", 2) == 0) {
+        if (word.compare(0,2,"--") == 0) {
             //check if prev word is also keyword - error
             if (prevWordIsArgName) {
                 error = true;
@@ -145,7 +140,7 @@ std::string getCtlDir(std::map<std::string, std::string> args) {
         std::exit(EXIT_FAILURE);
     }
     #ifdef DEBUG
-    std::cout << "controller file directory is " << args[ctldir] << std::endl;
+    std::cout << "controller file directory is " << args["ctldir"] << std::endl;
 #endif
     return args["ctldir"];
 }
@@ -156,7 +151,7 @@ std::string getCtlFilePrefix(std::map<std::string, std::string> args) {
         std::exit(EXIT_FAILURE);
     }
     #ifdef DEBUG
-    std::cout << "controller file prefix is " << args[ctlfile] << std::endl;
+    std::cout << "controller file prefix is " << args["ctlfile"] << std::endl;
 #endif
     return args["ctlfile"];
 }

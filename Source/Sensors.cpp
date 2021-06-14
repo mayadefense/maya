@@ -121,15 +121,15 @@ energyCtr(0) {
         //we have rapl for all cores
         energyFileNames.push_back(coreEnergyDirName + energyFilePrefix);
 #ifdef DEBUG
-       	std::cout << "Pushing " << energyDirName1+energyFilePrefix << std::endl;
+       	std::cout << "Pushing " << coreEnergyDirName+energyFilePrefix << std::endl;
 #endif
     } else {
         //we have rapl for each of the two packages
         energyFileNames.push_back(pkgEnergyDirName1 + energyFilePrefix);
         energyFileNames.push_back(pkgEnergyDirName2 + energyFilePrefix);
 #ifdef DEBUG
-        std::cout << "Pushing " << energyDirName2+energyFilePrefix << std::endl;
-        	std::cout << "Pushing " << energyDirName3+energyFilePrefix << std::endl;
+        std::cout << "Pushing " << pkgEnergyDirName1+energyFilePrefix << std::endl;
+        	std::cout << "Pushing " << pkgEnergyDirName2+energyFilePrefix << std::endl;
 #endif
     }
 }

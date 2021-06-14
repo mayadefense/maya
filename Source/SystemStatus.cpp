@@ -32,9 +32,25 @@ totalUnits(totalUnits) {
 
 SystemStatus::SystemStatus(std::string name, SystemType systemType) :
 name(name),
-systemType(systemType) {
+	systemType(systemType) {
+		if (systemType == SystemType::CPU) {
+			std::string coreStatusString;
+			std::ifstream coreFile(presentCPUCoreFileName);
+			coreFile >> coreStatusString;
+			auto delimPos = coreStatusString.find("-");
+			uint32_t startCore = -1, endCore = -1, numCores = 1;
+			if (delimPos != std::string::npos) {
+				startCore = std::stoul(coreStatusString.substr(0, delimPos));
+				endCore = std::stoul(coreStatusString.substr(delimPos + 1));
+				numCores = endCore - startCore + 1;
+			}
+			    setTotalUnits(numCores);
+			    for (auto i = 0; i < numCores; i++) {
+				     setUnitStatus(i,true);
+			    }
+		}
 
-}
+	}
 
 void SystemStatus::setTotalUnits(uint32_t numTotalUnits) {
     totalUnits = numTotalUnits;

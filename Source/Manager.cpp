@@ -133,7 +133,7 @@ void Manager::addController(std::string name, std::initializer_list<std::string>
     if (ctlType == ControllerType::Dummy) {
         controller = std::make_unique<Controller>(name, smplInt);
     } else if (ctlType == ControllerType::SSV) {
-        controller = std::make_unique<RobustController>(name, fileName, m, smplInt);
+        controller = std::make_unique<RobustController>(name, dirPath, fileName, smplInt);
     }
     //set width of ports in controller to take in outputs, curr inputs, curr targets and set new inputs
     //opNames, ipNames could be pins or ports
@@ -176,7 +176,7 @@ void Manager::addMaskGenerator(std::string name, std::string controllerName, Mas
     //Create  planner
     std::unique_ptr<Planner> planner;
     if (maskType == MaskGenType::Constant) {
-        planner = std::make_unique<Planner>(name, fileName, m, smplInt);
+        planner = std::make_unique<Planner>(name, dirPath, fileName, smplInt);
     } else if (maskType == MaskGenType::Gauss) {
         planner = std::make_unique<MaskGenerator>(name, dirPath, fileName, smplInt, SignalType::Normal, randomProp);
     } else if (maskType == MaskGenType::Sine) {
