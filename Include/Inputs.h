@@ -81,7 +81,7 @@ protected:
 
 class CPUFrequency : public Input {
 public:
-    CPUFrequency(std::string name, std::vector<uint32_t> coreList);
+    CPUFrequency(std::string name);
     void reset() override;
 
 protected:

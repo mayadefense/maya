@@ -100,7 +100,7 @@ ${DISTDIR}/${CONF}/BALLOON: ${BALLOONOBJ}
 ${BALLOONOBJ}: ${BALLOONDIR}/Balloon.c
 	${MKDIR} -p ${OBJECTDIR}/Balloon
 	${RM} "$@.d"
-	$(COMPILE.c) "$@.d" -o ${OBJECTDIR}/Balloon/Balloon.o ${BALLOONDIR}/Balloon.c
+	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Balloon/Balloon.o ${BALLOONDIR}/Balloon.c
 
 # Enable dependency checking
 .dep.inc: .depcheck-impl
