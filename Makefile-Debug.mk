@@ -22,8 +22,8 @@ BALLOONOBJ=${OBJECTDIR}/Balloon/Balloon.o
 CFLAGS=-O2 -fopenmp
 
 # CC Compiler Flags
-CCFLAGS=-DDEBUG -g -IInclude -std=c++14
-CXXFLAGS=
+CCFLAGS=
+CXXFLAGS=-DDEBUG -g -IInclude -std=c++14
 
 # Assembler Flags
 ASFLAGS=
