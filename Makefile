@@ -10,7 +10,7 @@ CCC=g++
 CXX=g++
 
 # Project Name
-PROJECTNAME=maya
+PROJECTNAME=Maya
 
 # Active Configuration
 DEFAULTCONF=Debug

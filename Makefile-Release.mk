@@ -22,7 +22,7 @@ BALLOONOBJ=${OBJECTDIR}/Balloon/Balloon.o
 CFLAGS=-O2 -fopenmp
 
 # CC Compiler Flags
-CCFLAGS=-DDEBUG
+CCFLAGS=
 CXXFLAGS=
 
 # Assembler Flags
