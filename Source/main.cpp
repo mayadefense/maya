@@ -73,7 +73,7 @@ std::map<std::string, std::string> parseArgs(int argc, char **argv) {
 
 Mode getMode(std::map<std::string, std::string> args) {
     if (args.find("mode") == args.end()) {
-        std::cout << "No --mode specified. --mode should be one of Baseline, Sysid, Control" << std::endl;
+        std::cout << "No --mode specified. --mode should be one of Baseline, Sysid, Mask" << std::endl;
         std::exit(EXIT_FAILURE);
     }
 
@@ -85,10 +85,10 @@ Mode getMode(std::map<std::string, std::string> args) {
         return Mode::Baseline;
     } else if (modeName.compare("Sysid") == 0) {
         return Mode::Sysid;
-    } else if (modeName.compare("Control") == 0) {
-        return Mode::Control;
+    } else if (modeName.compare("Mask") == 0) {
+        return Mode::Mask;
     } else {
-        std::cout << "Mode " << modeName << " is invalid. It should be one of Baseline, Sysid, Control" << std::endl;
+        std::cout << "Mode " << modeName << " is invalid. It should be one of Baseline, Sysid, Mask" << std::endl;
         std::exit(EXIT_FAILURE);
     }
 }
@@ -183,7 +183,7 @@ int main(int argc, char** argv) {
 
     if (mode == Mode::Sysid) {
         manager.addSysIdParams(getSysidNames(args));
-    } else if (mode == Mode::Control) {
+    } else if (mode == Mode::Mask) {
         std::string ctlFileName(getCtlFilePrefix(args));
         std::string dirPath(getCtlDir(args));
         auto maskName = getMaskType(args);

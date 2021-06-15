@@ -9,3 +9,4 @@ nbdist/
 .nb-gradle/
 /nbproject/
 /.dep.inc
+/.vscode/

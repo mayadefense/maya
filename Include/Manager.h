@@ -34,7 +34,7 @@
 enum class Mode {
     Baseline,
     Sysid,
-    Control,
+    Mask,
     Invalid
 };
 

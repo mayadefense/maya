@@ -392,7 +392,7 @@ void Manager::run() {
             case Mode::Sysid:
                 runSysid();
                 break;
-            case Mode::Control:
+            case Mode::Mask:
                 transferBlockWires();
                 runControl();
                 break;
@@ -489,7 +489,7 @@ void Manager::displayHeader() {
         }
     }
 
-    if (mode == Mode::Control) {
+    if (mode == Mode::Mask) {
         for (auto& ctl : controllerList) {
             auto targetNames = ctl->currOutputTargetVals->getPinNames();
             for (auto& tName : targetNames) {
@@ -515,7 +515,7 @@ void Manager::displayValues() {
         }
     }
 
-    if (mode == Mode::Control) {
+    if (mode == Mode::Mask) {
         for (auto& ctl : controllerList) {
             auto targetValues = ctl->currOutputTargetVals->transmitValues();
             for (auto& tValue : targetValues) {
