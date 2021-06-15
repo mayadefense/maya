@@ -22,7 +22,7 @@ BALLOONOBJ=${OBJECTDIR}/Balloon/Balloon.o
 CFLAGS=-O2 -fopenmp
 
 # CC Compiler Flags
-CCFLAGS=-DDEBUG
+CCFLAGS=-DDEBUG -g -IInclude -std=c++14
 CXXFLAGS=
 
 # Assembler Flags
@@ -42,48 +42,48 @@ ${DISTDIR}/${CONF}/${PROJECTNAME}: ${OBJECTFILES}
 ${OBJECTDIR}/Source/Abstractions.o: Source/Abstractions.cpp
 	${MKDIR} -p ${OBJECTDIR}/Source
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -IInclude -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Source/Abstractions.o Source/Abstractions.cpp
+	$(COMPILE.cc) -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Source/Abstractions.o Source/Abstractions.cpp
 
 ${OBJECTDIR}/Source/Controller.o: Source/Controller.cpp
 	${MKDIR} -p ${OBJECTDIR}/Source
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -IInclude -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Source/Controller.o Source/Controller.cpp
+	$(COMPILE.cc) -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Source/Controller.o Source/Controller.cpp
 
 ${OBJECTDIR}/Source/Inputs.o: Source/Inputs.cpp
 	${MKDIR} -p ${OBJECTDIR}/Source
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -IInclude -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Source/Inputs.o Source/Inputs.cpp
+	$(COMPILE.cc) -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Source/Inputs.o Source/Inputs.cpp
 
 ${OBJECTDIR}/Source/Manager.o: Source/Manager.cpp
 	${MKDIR} -p ${OBJECTDIR}/Source
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -IInclude -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Source/Manager.o Source/Manager.cpp
+	$(COMPILE.cc) -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Source/Manager.o Source/Manager.cpp
 
 ${OBJECTDIR}/Source/MathSupport.o: Source/MathSupport.cpp
 	${MKDIR} -p ${OBJECTDIR}/Source
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -IInclude -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Source/MathSupport.o Source/MathSupport.cpp
+	$(COMPILE.cc) -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Source/MathSupport.o Source/MathSupport.cpp
 
 ${OBJECTDIR}/Source/Planner.o: Source/Planner.cpp
 	${MKDIR} -p ${OBJECTDIR}/Source
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -IInclude -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Source/Planner.o Source/Planner.cpp
+	$(COMPILE.cc) -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Source/Planner.o Source/Planner.cpp
 
 ${OBJECTDIR}/Source/Sensors.o: Source/Sensors.cpp
 	${MKDIR} -p ${OBJECTDIR}/Source
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -IInclude -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Source/Sensors.o Source/Sensors.cpp
+	$(COMPILE.cc) -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Source/Sensors.o Source/Sensors.cpp
 
 
 ${OBJECTDIR}/Source/SystemStatus.o: Source/SystemStatus.cpp
 	${MKDIR} -p ${OBJECTDIR}/Source
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -IInclude -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Source/SystemStatus.o Source/SystemStatus.cpp
+	$(COMPILE.cc) -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Source/SystemStatus.o Source/SystemStatus.cpp
 
 ${OBJECTDIR}/Source/main.o: Source/main.cpp
 	${MKDIR} -p ${OBJECTDIR}/Source
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -IInclude -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Source/main.o Source/main.cpp
+	$(COMPILE.cc) -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Source/main.o Source/main.cpp
 
 # Clean Targets
 .clean-conf: 
