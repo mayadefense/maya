@@ -77,7 +77,7 @@ help:
 .depcheck-impl:
 	@echo "# This code depends on make tool being used" >.dep.inc
 	@if [ -n "${MAKE_VERSION}" ]; then \
-	    echo "DEPFILES=\$$(wildcard \$$(addsuffix .d, \$${OBJECTFILES} \$${TESTOBJECTFILES}))" >>.dep.inc; \
+	    echo "DEPFILES=\$$(wildcard \$$(addsuffix .d, \$${OBJECTFILES} \$${BALLOONOBJ} \$${TESTOBJECTFILES}))" >>.dep.inc; \
 	    echo "ifneq (\$${DEPFILES},)" >>.dep.inc; \
 	    echo "include \$${DEPFILES}" >>.dep.inc; \
 	    echo "endif" >>.dep.inc; \
