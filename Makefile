@@ -1,5 +1,6 @@
 BUILDDIR=Build
 DISTDIR=Dist
+BALLOONDIR=Balloon
 
 # Environment
 MKDIR=mkdir

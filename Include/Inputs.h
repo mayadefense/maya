@@ -96,7 +96,7 @@ private:
     std::string freqWFileNamePostfix1 = "/cpufreq/scaling_setspeed",
             freqWFileNamePostfix2Min = "/cpufreq/scaling_min_freq";
     std::vector<std::string> freqWFileName, freqWMinFileName, freqWMaxFileName;
-
+    std::string presentCPUCoreFileName = "/sys/devices/system/cpu/present";
     bool writeScalingFile;
 };
 

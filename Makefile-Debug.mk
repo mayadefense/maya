@@ -16,8 +16,10 @@ OBJECTFILES= \
         ${OBJECTDIR}/Source/SystemStatus.o \
         ${OBJECTDIR}/Source/main.o
 
-# C Compiler Flags
-CFLAGS=
+BALLOONOBJ=${OBJECTDIR}/Balloon/Balloon.o
+
+# C Compiler Flags; Used for Balloon
+CFLAGS=-O2 -fopenmp
 
 # CC Compiler Flags
 CCFLAGS=
@@ -30,13 +32,12 @@ ASFLAGS=
 LDLIBSOPTIONS=
 
 # Build Targets
-.build-conf: 
+.build-conf: .balloon-build
 	"${MAKE}"  -f Makefile-${CONF}.mk ${DISTDIR}/${CONF}/${PROJECTNAME}
 
 ${DISTDIR}/${CONF}/${PROJECTNAME}: ${OBJECTFILES}
 	${MKDIR} -p ${DISTDIR}/${CONF}
 	${LINK.cc} -o ${DISTDIR}/${CONF}/${PROJECTNAME} ${OBJECTFILES} ${LDLIBSOPTIONS}
-
 
 ${OBJECTDIR}/Source/Abstractions.o: Source/Abstractions.cpp
 	${MKDIR} -p ${OBJECTDIR}/Source
@@ -87,6 +88,19 @@ ${OBJECTDIR}/Source/main.o: Source/main.cpp
 # Clean Targets
 .clean-conf: 
 	${RM} -r ${BUILDDIR}/${CONF}
+
+.balloon-build:
+	"${MAKE}"  -f Makefile-${CONF}.mk ${DISTDIR}/${CONF}/BALLOON
+
+${DISTDIR}/${CONF}/BALLOON: ${BALLOONOBJ}
+	${MKDIR} -p ${DISTDIR}/${CONF}
+	${LINK.c} -o ${DISTDIR}/${CONF}/Balloon ${BALLOONOBJ} ${LDLIBSOPTIONS}
+
+
+${BALLOONOBJ}: ${BALLOONDIR}/Balloon.c
+	${MKDIR} -p ${OBJECTDIR}/Balloon
+	${RM} "$@.d"
+	$(COMPILE.c) "$@.d" -o ${OBJECTDIR}/Balloon/Balloon.o ${BALLOONDIR}/Balloon.c
 
 # Enable dependency checking
 .dep.inc: .depcheck-impl

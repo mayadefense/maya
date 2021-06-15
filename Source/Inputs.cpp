@@ -32,7 +32,6 @@
 #include <dirent.h>
 #include <time.h> 
 
-extern SystemStatus coreStatus;
 
 Input::Input(std::string iname) : Sensor(iname),
 in(std::make_shared<InputPort>(iname, std::initializer_list<std::string>({iname}))),
@@ -159,9 +158,22 @@ void Input::reset() {
     setMaxValue();
 }
 
-CPUFrequency::CPUFrequency(std::string name, std::vector<uint32_t> coreIds_) :
-coreIds(coreIds_),
+CPUFrequency::CPUFrequency(std::string name) :
 Input(name) {
+    //Find number of cores
+    std::string coreStatusString;
+    std::ifstream coreFile(presentCPUCoreFileName);
+    coreFile >> coreStatusString;
+    auto delimPos = coreStatusString.find("-");
+    uint32_t startCore = -1, endCore = -1, numCores = 1;
+    if (delimPos != std::string::npos) {
+        startCore = std::stoul(coreStatusString.substr(0, delimPos));
+        endCore = std::stoul(coreStatusString.substr(delimPos + 1));
+        numCores = endCore - startCore + 1;
+    }
+    for (auto i = 0; i < numCores; i++){
+        coreIds.push_back(i);
+    }
 
     for (auto& coreId : coreIds) {
         auto fileName = freqFileNamePrefix;
@@ -394,7 +406,7 @@ IdleInject::IdleInject(std::string name) : Input(name) {
             file >> deviceType;
             file.close();
 #ifdef DEBUG
-	    std::cout << "Checking " << deviceTypeFileName << " with entry " << deviceType << std::endl;
+            std::cout << "Checking " << deviceTypeFileName << " with entry " << deviceType << std::endl;
 #endif
             if (deviceType.compare("intel_powerclamp") == 0) {
                 pclampSetFileName = dirName + "/" + deviceDirName + pclampSetFileNamePostfix;
@@ -417,7 +429,7 @@ IdleInject::IdleInject(std::string name) : Input(name) {
     file.open(pclampMaxFileName);
     file >> mVal;
     file.close();
-    for (int i = 0; i <= mVal; i=i+4) {
+    for (int i = 0; i <= mVal; i = i + 4) {
         allowedValues.push_back(i);
     }
     updateMinMaxMid();
@@ -450,17 +462,17 @@ void IdleInject::readFromSystem() {
     file >> val;
     if (val == -1) {
         values[0] = 0;
-    } 
+    }
     //here, we are not reading the value from the 
     //system because you can write any value to this file and when you read you simply 
     //get it back. However, it might not get applied. So, we keep track of the 
     //actual values we write.
 }
 
- void IdleInject::reset() {
+void IdleInject::reset() {
     std::ofstream file(pclampSetFileName);
     file << 0;
- }
+}
 
 PowerBalloon::PowerBalloon(std::string name) : Input(name) {
     uint32_t maxLevel;
@@ -474,7 +486,7 @@ PowerBalloon::PowerBalloon(std::string name) : Input(name) {
 #ifdef DEBUG
     std::cout << " Reading max" << maxLevel << " from " << pbMaxFileName << std::endl;
 #endif
-    for (uint32_t i = 0; i <= maxLevel; i=i+2) {
+    for (uint32_t i = 0; i <= maxLevel; i = i + 2) {
         allowedValues.push_back(i);
     }
     updateMinMaxMid();
@@ -502,7 +514,6 @@ void PowerBalloon::writeToSystem() {
     std::ofstream pbFile(pbFileName);
     pbFile << (uint32_t) actualWriteValue << "\n";
 }
-
 
 void PowerBalloon::reset() {
     setMinValue();
@@ -638,4 +649,4 @@ op(std::make_shared<OutputPort>(name, portNames)) {
 void DummySrc::genValues() {
     op->updateValuesToPort(Vector({5}));
 }
-*/
+ */

@@ -156,7 +156,6 @@ std::string getCtlFilePrefix(std::map<std::string, std::string> args) {
     return args["ctlfile"];
 }
     
-SystemStatus coreStatus("cpu", SystemType::CPU);
 const uint32_t samplingIntervalMS = 20; //20 is default
 
 //Usage: ./maya --mode <Mode> [--idips <Sysid inputs>][--mask <mask name> --ctldir <dir> --ctlfile <file prefix>]
@@ -172,14 +171,13 @@ int main(int argc, char** argv) {
 
     //Create manager
     Manager manager(samplingIntervalMS, mode);
+ 
     //add sensors
     manager.addSensor(std::make_unique<Time>("Time"));
     manager.addSensor(std::make_unique<CPUPowerSensor>("CPUPower"));
-    //add systemstatus
-    auto coreIds = coreStatus.getUnitIds();
-    auto physicalCoreIds = coreStatus.getPhysicalUnitIds();
+
     //add inputs
-    manager.addInput(std::make_unique<CPUFrequency>("CPUFreq", coreIds));
+    manager.addInput(std::make_unique<CPUFrequency>("CPUFreq"));
     manager.addInput(std::make_unique<IdleInject>("IdlePct"));
     manager.addInput(std::make_unique<PowerBalloon>("PBalloon"));
 
