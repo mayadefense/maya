@@ -8,3 +8,4 @@ dist/
 nbdist/
 .nb-gradle/
 /nbproject/
+/.dep.inc
