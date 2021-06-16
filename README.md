@@ -28,7 +28,7 @@ Maya changes the processor's frequency and this requires root privilege (`sudo`)
 
 There are two configurations (aka `CONF`s) for the software: Debug (with verbose debug information) and Release. Simply type `make CONF=<Debug|Release>` to build the `CONF` of choice. You can also edit the default configuration using the `DEFAULTCONF` variable in the Makefile.
 
-The Maya executable is placed in the Dist/<CONF>/ directory. The `make` process also builds an executable for the Balloon application needed for changing the power consumption (please see the ISCA paper above). The Balloon executable is also placed in the same directory.
+The Maya executable is placed in the Dist/\<CONF\>/ directory. The `make` process also builds an executable for the Balloon application needed for changing the power consumption (please see the ISCA paper above). The Balloon executable is also placed in the same directory.
 
 ## Using Maya
 
@@ -43,21 +43,39 @@ sudo LD_LIBRARY_PATH=<path to lib64>/:\$LD_LIBRARY_PATH ./Maya --mode <Baseline|
 ```
 Note that you need to specify the `LD_LIBRARY_PATH` explicitly because the variable is cleared in sudo mode. The path you specify is the path to the lib64 library for the gcc/g++ compiler you use.
 
-Once Maya is launched, it will print the time, power, and values of the inputs to the standard output. 
+Once Maya is launched, it will print the time, power, and values of the inputs to the standard output. You can also redirect it to a log file.
 
 Examples:
 ```bash
-sudo LD_LIBRARY_PATH=<path to lib64>/:\$LD_LIBRARY_PATH ./Maya --mode Baseline > /dev/null 2>&1 & # Prints the values of power and the inputs - doesn't change power
+# Prints the values of power and the inputs - doesn't change power
+sudo LD_LIBRARY_PATH=<path to lib64>/:\$LD_LIBRARY_PATH ./Maya --mode Baseline > /dev/null 2>&1 & 
 
-sudo LD_LIBRARY_PATH=<path to lib64>/:\$LD_LIBRARY_PATH ./Maya --mode Sysid --idips CPUFreq IdlePct PBalloon > /dev/null 2>&1 & # Perform system identification by changing the inputs named CPUFreq, IdlePct and PBalloon randomly.
+# Perform system identification by changing the inputs named CPUFreq, IdlePct and PBalloon randomly
+sudo LD_LIBRARY_PATH=<path to lib64>/:\$LD_LIBRARY_PATH ./Maya --mode Sysid --idips CPUFreq IdlePct PBalloon > /dev/null 2>&1 & 
 
-sudo LD_LIBRARY_PATH=<path to lib64>/:\$LD_LIBRARY_PATH ./Maya --mode Mask --mask GaussSine --ctldir ../../Controller --ctlfile mayaRobust > /dev/null 2>&1 & # Run Maya with the Gaussian Sinusoid mask generator. The robust controller files are in the ../../Controller directory and the files are prefixed with the name mayaRobust.
+# Run Maya with the Gaussian Sinusoid mask generator. The robust controller files are in the ../../Controller directory and the files are prefixed with the name mayaRobust
+sudo LD_LIBRARY_PATH=<path to lib64>/:\$LD_LIBRARY_PATH ./Maya --mode Mask --mask GaussSine --ctldir ../../Controller --ctlfile mayaRobust > /dev/null 2>&1 & 
 ```
 
 ## Stopping Maya
 
-To stop Maya, press `ctrl C`. Maya has a `sigkill` handler (see Manager.cpp) that will terminate the program gracefully.
+Maya will continue to run indefinitely once launched. To stop it, press `ctrl C`. Maya has a `sigkill` handler (see Manager.cpp) that will terminate the program gracefully.
+
+## Maya in paired mode
+
+To launch Maya with a specific application, you can use the Launch.sh script in the Scripts directory. You can modify the script to add the application you want to run. Edit this script to specify the command line for your apps as:
+```bash
+su <userid> -c "cmdline for your app" > $OUTFILE
+```
+
+An example command line for the script to record the output is:
+```bash
+sudo -E --preserve-env=PATH env "LD_LIBRARY_PATH=$LD_LIBRARY_PATH" bash ./Launch.sh --rundir "../Dist/Release/" --options "--mode Baseline" --logdir "<logdir>" --tag "<name>" --apps "<appname>"
+```
+The Launch.sh script takes care of preparing the system, launching Balloon, Maya and the application you specify. Finally, it wil terminate Balloon and Maya after the application completes execution. The script is also launched with `sudo` permissions. The `--tag` and `--logdir` parameters are optional. If you specify a tag name for the execution and a log directory, the script will record the output of Maya in `$LOGFILE` in the specified directory, and the output of the application will be in `$OUTFILE`. Make sure that the log directory is accessible by the script (note that it is running with root privilege).
+
+If needed, the script can be killed with `ctrl C`.
 
 ## License
 
-[UIUC/NCSA] (https://choosealicense.com/licenses/ncsa/)
+[UIUC/NCSA](https://choosealicense.com/licenses/ncsa/)
