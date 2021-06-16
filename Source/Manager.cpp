@@ -542,7 +542,7 @@ void Manager::completeInit() {
             std::cout << " Write Latency (max-min) for " << input->getName() << " " << latencyResults[0] << " us" << std::endl;
             std::cout << " Write Latency (min-max) for " << input->getName() << " " << latencyResults[1] << " us" << std::endl;
 #endif
-            input->setMinValue();
+            input->setMidValue();
         }
     }
     //Initialize numcores and cpu frequency to maximum
