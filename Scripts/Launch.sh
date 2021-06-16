@@ -145,7 +145,7 @@ function stopall {
     if [ ${#MAYA_PIDS[@]} -ne 0 ]; then
     	echo -n "$MAYA_NAME is currently running and will be stopped. The PIDs are: "
         echo ${MAYA_PIDS[@]}
-        for pid in "${MAYA_PIDs[@]}"; 	do
+        for pid in "${MAYA_PIDS[@]}"; 	do
         	sudo kill -2 $pid
         done
     fi
@@ -175,6 +175,7 @@ stopall
 startall
 
 if [[ "$APPS" ]]; then
+	sleep 1
 fi
 sleep 2
 
