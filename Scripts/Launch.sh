@@ -74,7 +74,7 @@ if [[ "$LOGDIR" ]] && [[ ! -d "$LOGDIR" ]]; then
 	echo "You wanted to record the run in a log directory $LOGDIR but it doesn't exist."
     usage
     exit 1
-elif [[ -z "$TAG" ]]; then
+elif [[ "$LOGDIR" ]] && [[ -z "$TAG" ]]; then
     echo "You wanted to record the run but haven't specified a tag for the run."
     usage
     exit 1
