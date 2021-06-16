@@ -178,7 +178,7 @@ stopall
 startall
 
 if [[ "$APPS" == "parsec" ]]; then
-		su pothuku2 -c "${appDir}/parsec/parsec-3.0/bin/parsecmgmt -a run -p parsec.blackscholes -i native -n $NUM_CORES -k  > $OUTFILE"
+		su pothuku2 -c "/home/pothuku2/Research/visakha/apps/parsec/parsec-3.0/bin/parsecmgmt -a run -p parsec.blackscholes -i native -n $NUM_CORES -k  > $OUTFILE"
 		
         #shuffle app order
 		#parsec_apps=( "splash2x.volrend" "parsec.streamcluster"  "parsec.canneal" "parsec.blackscholes" "parsec.bodytrack" "parsec.freqmine" "parsec.raytrace" "parsec.vips" "splash2x.radiosity" "splash2x.water_nsquared" "splash2x.water_spatial" )
