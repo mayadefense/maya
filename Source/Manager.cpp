@@ -62,7 +62,7 @@ void Manager::addInput(std::unique_ptr<Input> newInput) {
         }
     }
 #ifdef DEBUG
-    std::cout << "Adding " << newInput->getName() << " with index " << inputList.size() - 1;
+    std::cout << "Adding " << newInput->getName() << " with index " << inputList.size() << std::endl;
 #endif
     inputList.push_back(std::move(newInput));
 }
@@ -84,6 +84,9 @@ void Manager::addSensor(std::unique_ptr<Sensor> newSensor) {
             }
         }
     }
+  #ifdef DEBUG
+    std::cout << "Adding " << newSensor->getName() << " with index " << sensorList.size() << std::endl;
+#endif
     sensorList.push_back(std::move(newSensor));
 }
 

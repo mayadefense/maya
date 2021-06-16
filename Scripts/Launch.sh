@@ -107,18 +107,21 @@ function startall {
         #Turn core on
         echo 1 >/sys/devices/system/cpu/cpu${core}/online
 
+        maxFreq=$(cat /sys/devices/system/cpu/cpu${core}/cpufreq/cpuinfo_max_freq)
+
         if [ "$userspace_avail" == true ]; then
             #Write userspace governor
             echo userspace >/sys/devices/system/cpu/cpu${core}/cpufreq/scaling_governor
+            
+            #Set the core to run at the maximum frequency
+            #echo ${maxFreq} >/sys/devices/system/cpu/cpu${core}/cpufreq/scaling_setspeed
         else
             #Write performance governor
             echo performance >/sys/devices/system/cpu/cpu${core}/cpufreq/scaling_governor
 
             #Set the core to run at the maximum frequency
-            maxFreq=$(cat /sys/devices/system/cpu/cpu${core}/cpufreq/cpuinfo_max_freq)
-            minFreq=$(cat /sys/devices/system/cpu/cpu${core}/cpufreq/cpuinfo_min_freq)
-            echo ${maxFreq} >/sys/devices/system/cpu/cpu${core}/cpufreq/scaling_max_freq
-            echo ${minFreq} >/sys/devices/system/cpu/cpu${core}/cpufreq/scaling_min_freq
+            #echo ${maxFreq} >/sys/devices/system/cpu/cpu${core}/cpufreq/scaling_max_freq
+            #echo ${maxFreq} >/sys/devices/system/cpu/cpu${core}/cpufreq/scaling_min_freq
         fi
     done
 
@@ -174,9 +177,16 @@ trap stopall SIGINT
 stopall
 startall
 
-if [[ "$APPS" ]]; then
+if [[ "$APPS" == "parsec" ]]; then
+		su pothuku2 -c "${appDir}/parsec/parsec-3.0/bin/parsecmgmt -a run -p parsec.blackscholes -i native -n $NUM_CORES -k  > $OUTFILE"
+		
+        #shuffle app order
+		#parsec_apps=( "splash2x.volrend" "parsec.streamcluster"  "parsec.canneal" "parsec.blackscholes" "parsec.bodytrack" "parsec.freqmine" "parsec.raytrace" "parsec.vips" "splash2x.radiosity" "splash2x.water_nsquared" "splash2x.water_spatial" )
+		#parsec_apps=( $(shuf -e "${parsec_apps[@]}") )
+		#su pothuku2 -c "${appDir}/parsec/parsec-3.0/bin/parsecmgmt -a run -p  ${parsec_apps} -i native -n $numCores -k  >> $outFile"
 	sleep 1
+else
+    sleep 2
 fi
-sleep 2
 
 stopall

@@ -182,7 +182,7 @@ Input(name) {
         fileName = fileName.append(std::to_string(coreId)).append(freqRFileNamePostfix);
         freqRFileName.push_back(fileName);
 #ifdef DEBUG
-        std::cout << "Creating frequency for " << coreId << " " << fileName << std::endl;
+        std::cout << "Creating frequency files for " << coreId << " " << fileName << std::endl;
 #endif
         //populate freqWFileName
         fileName = freqFileNamePrefix;
@@ -265,7 +265,7 @@ Input(name) {
     }
 
 #ifdef DEBUG
-    std::cout << "Write method is " << writeScalingFile << std::endl;
+    std::cout << "Write method is " << writeScalingFile?"userspace governor":"performance governor" << std::endl;
 #endif
 
     updateValuesFromSystem();

@@ -33,12 +33,6 @@ for ((core = 0; core < numCores; core++)); do
     else
         #Write performance governor
         echo performance >/sys/devices/system/cpu/cpu${core}/cpufreq/scaling_governor
-
-        #Set the core to run at the maximum frequency
-        maxFreq=$(cat /sys/devices/system/cpu/cpu${core}/cpufreq/cpuinfo_max_freq)
-        minFreq=$(cat /sys/devices/system/cpu/cpu${core}/cpufreq/cpuinfo_min_freq)
-        echo ${maxFreq} >/sys/devices/system/cpu/cpu${core}/cpufreq/scaling_max_freq
-        echo ${minFreq} >/sys/devices/system/cpu/cpu${core}/cpufreq/scaling_min_freq
     fi
 done
 
