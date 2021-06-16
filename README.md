@@ -39,7 +39,7 @@ The Maya executable is placed in the Dist/<CONF>/ directory. The `make` process 
 
 2. Launch Maya with the desired options. The general syntax is:
 ```bash
-sudo LD_LIBRARY_PATH=<path to lib64>/:\$LD_LIBRARY_PATH ./Maya --mode <Baseline|Sysid|Mask> [--idips <inputs for system identification>] [--mask <Constant|Uniform|Gauss|Sine|GaussSine|Preset> --ctldir <path to the directory where the files for the robust controller are stored> --ctlfile <the name of the controller which is used as a prefix for all its files>]
+sudo LD_LIBRARY_PATH=<path to lib64>/:\$LD_LIBRARY_PATH ./Maya --mode <Baseline|Sysid|Mask> [--idips <inputs for system identification>] [--mask <Constant|Uniform|Gauss|Sine|GaussSine|Preset> --ctldir <path to the directory where the files for the robust controller are stored> --ctlfile <the name of the controller which is used as a prefix for all its files>] > <log file> 2>&1 &
 ```
 Note that you need to specify the `LD_LIBRARY_PATH` explicitly because the variable is cleared in sudo mode. The path you specify is the path to the lib64 library for the gcc/g++ compiler you use.
 
@@ -47,11 +47,11 @@ Once Maya is launched, it will print the time, power, and values of the inputs t
 
 Examples:
 ```bash
-sudo LD_LIBRARY_PATH=<path to lib64>/:\$LD_LIBRARY_PATH ./Maya --mode Baseline # Prints the values of power and the inputs - doesn't change power
+sudo LD_LIBRARY_PATH=<path to lib64>/:\$LD_LIBRARY_PATH ./Maya --mode Baseline > /dev/null 2>&1 & # Prints the values of power and the inputs - doesn't change power
 
-sudo LD_LIBRARY_PATH=<path to lib64>/:\$LD_LIBRARY_PATH ./Maya --mode Sysid --idips CPUFreq IdlePct PBalloon # Perform system identification by changing the inputs named CPUFreq, IdlePct and PBalloon randomly.
+sudo LD_LIBRARY_PATH=<path to lib64>/:\$LD_LIBRARY_PATH ./Maya --mode Sysid --idips CPUFreq IdlePct PBalloon > /dev/null 2>&1 & # Perform system identification by changing the inputs named CPUFreq, IdlePct and PBalloon randomly.
 
-sudo LD_LIBRARY_PATH=<path to lib64>/:\$LD_LIBRARY_PATH ./Maya --mode Mask --mask GaussSine --ctldir ../../Controller --ctlfile mayaRobust # Run Maya with the Gaussian Sinusoid mask generator. The robust controller files are in the ../../Controller directory and the files are prefixed with the name mayaRobust.
+sudo LD_LIBRARY_PATH=<path to lib64>/:\$LD_LIBRARY_PATH ./Maya --mode Mask --mask GaussSine --ctldir ../../Controller --ctlfile mayaRobust > /dev/null 2>&1 & # Run Maya with the Gaussian Sinusoid mask generator. The robust controller files are in the ../../Controller directory and the files are prefixed with the name mayaRobust.
 ```
 
 ## Stopping Maya

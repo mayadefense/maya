@@ -11,7 +11,7 @@ usage() {
 	echo
 	echo " -rd, --rundir    Run directory for Maya"
 	echo " -ld, --logdir    directory for log files"
-	echo " -o, --options   Options for Maya" 
+	echo " -o, --options   Options for Maya e.g., \"--mode Baseline\" \"--mode Sysid --idips CPUFreq\", \"--mode Mask GaussSine --ctldir ../../Controller/ --ctlfile mayaRobust\"" 
 	echo " -t, --tag    tag for log files"
     echo " -a, --apps   apps to run"
   	echo " -h, --help   Display usage instructions"
@@ -25,7 +25,7 @@ fi
 
 RUNDIR=
 LOGDIR=
-MAYA_OPTS=#"--mode Baseline" "--mode Sysid --idips CPUFreq", "--mode Mask GaussSine --ctldir ../../Controller/ --ctlfile mayaRobust"
+MAYA_OPTS=
 TAG=
 APPS=
 
