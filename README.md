@@ -76,6 +76,13 @@ The Launch.sh script takes care of preparing the system, launching Balloon, Maya
 
 If needed, the script can be killed with `ctrl C`.
 
+## Maya's controller
+
+Maya modifies the processor's settings using a robust control theory based controller. The controller's files are in the Controller directory, and the default controller is named mayaRobust. This controller should work well (i.e., it can keep power close to the target given to it) for most systems. If that doesn't happen, there are two solutions:
+1. A simple solution is to calibrate the scaling factors. The controller operates on normalized values of power, and the normalized ranges of inputs. Run Maya in system identification mode with a test application, and record the maximum and minimum values of power. Use them to adjust the scaling factors in <>_scaleYMeas.txt Also adjust the scaling factors for the CPUFrequency input by reading the minimum and maximum frequency values.
+
+2. If the simple solution doesn't work, you might have to re-design a controller for your system. You can follow the instructions in the ISCA paper to do so.
+
 ## License
 
 [UIUC/NCSA](https://choosealicense.com/licenses/ncsa/)
