@@ -13,7 +13,7 @@ CXX=g++
 PROJECTNAME=Maya
 
 # Active Configuration
-DEFAULTCONF=Debug
+DEFAULTCONF=Release
 CONF=${DEFAULTCONF}
 
 # All Configurations

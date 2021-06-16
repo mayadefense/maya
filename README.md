@@ -30,7 +30,7 @@ There are two configurations (aka `CONF`s) for the software: Debug (with verbose
 
 The Maya executable is placed in the Dist/<CONF>/ directory. The `make` process also builds an executable for the Balloon application needed for changing the power consumption (please see the ISCA paper above). The Balloon executable is also placed in the same directory.
 
-## Launching Maya
+## Using Maya
 
 1. Begin by launching the Balloon executable:
 ```bash
@@ -41,4 +41,23 @@ The Maya executable is placed in the Dist/<CONF>/ directory. The `make` process 
 ```bash
 sudo LD_LIBRARY_PATH=<path to lib64>/:\$LD_LIBRARY_PATH ./Maya --mode <Baseline|Sysid|Mask> [--idips <inputs for system identification>] [--mask <Constant|Uniform|Gauss|Sine|GaussSine|Preset> --ctldir <path to the directory where the files for the robust controller are stored> --ctlfile <the name of the controller which is used as a prefix for all its files>]
 ```
-Note that you need to specify the `LD_LIBRARY_PATH` explicitly because it is cleared in sudo mode.
+Note that you need to specify the `LD_LIBRARY_PATH` explicitly because the variable is cleared in sudo mode. The path you specify is the path to the lib64 library for the gcc/g++ compiler you use.
+
+Once Maya is launched, it will print the time, power, and values of the inputs to the standard output. 
+
+Examples:
+```bash
+sudo LD_LIBRARY_PATH=<path to lib64>/:\$LD_LIBRARY_PATH ./Maya --mode Baseline # Prints the values of power and the inputs - doesn't change power
+
+sudo LD_LIBRARY_PATH=<path to lib64>/:\$LD_LIBRARY_PATH ./Maya --mode Sysid --idips CPUFreq IdlePct PBalloon # Perform system identification by changing the inputs named CPUFreq, IdlePct and PBalloon randomly.
+
+sudo LD_LIBRARY_PATH=<path to lib64>/:\$LD_LIBRARY_PATH ./Maya --mode Mask --mask GaussSine --ctldir ../../Controller --ctlfile mayaRobust # Run Maya with the Gaussian Sinusoid mask generator. The robust controller files are in the ../../Controller directory and the files are prefixed with the name mayaRobust.
+```
+
+## Stopping Maya
+
+To stop Maya, press `ctrl C`. Maya has a `sigkill` handler (see Manager.cpp) that will terminate the program gracefully.
+
+## License
+
+[UIUC/NCSA] (https://choosealicense.com/licenses/ncsa/)

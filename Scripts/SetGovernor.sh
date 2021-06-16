@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# File:   prepare.sh
+# File:   SetGovernors.sh
 # Author: Raghavendra Pradyumna Pothukuchi and Sweta Yamini Pothukuchi
 #
 
