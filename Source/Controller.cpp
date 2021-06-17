@@ -97,7 +97,7 @@ RobustController::RobustController(std::string name, std::string dirPath, std::s
 Controller(name, smplInt) {
     std::ifstream file;
     uint32_t dimension, numInputs, numMeasurements;
-    std::string fileNamePrefix = dirPath + ctlFileName;
+    std::string fileNamePrefix = dirPath + "/"+ ctlFileName;
     file.open(fileNamePrefix + "_dimension.txt");
     if (!file) {
         std::cerr << "Unable to open " << fileNamePrefix << "_dimension.txt" << std::endl;

@@ -42,7 +42,7 @@ presetTargetCounter(0) {
 #ifdef DEBUG
     std::cout << "Creating planner " << name << std::endl;
 #endif
-    std::string fileNamePrefix = dirPath + fileName;
+    std::string fileNamePrefix = dirPath + "/" + fileName;
 
     std::ifstream file;
     uint64_t presetTargetLen = 0;
@@ -71,7 +71,7 @@ std::string Planner::getName() {
 }
 
 void Planner::reset() {
-    std::string fileNamePrefix = dirPath + fileName;
+    std::string fileNamePrefix = dirPath + "/" + fileName;
     targets.from_file(fileNamePrefix + "_targets.txt");
     presetTargetCounter = 0;
 }
