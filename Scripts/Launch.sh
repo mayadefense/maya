@@ -161,7 +161,11 @@ function stopall {
         	sudo kill $pid
         done
     fi
-        
+    
+    #remove the balloon files   
+    rm /dev/shm/powerBalloon.txt
+    rm /dev/shm/powerBalloonMax.txt
+
     #Turn cores on
     for ((core=0;core<NUM_CORES;core++)); do
         echo 1 > /sys/devices/system/cpu/cpu${core}/online
