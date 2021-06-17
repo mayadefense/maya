@@ -24,6 +24,17 @@ Maya changes the processor's frequency and this requires root privilege (`sudo`)
 
 4. With the *acpi-cpufreq* driver, Maya can change the processor's frequency values using either the *userspace* governor (preferred) or the *performance* governor. To enable the *userspace* governor (or to enable the *performance* governor if *userspace* isn't available), you can use the `SetGovernor.sh` file in the `Scripts` directory. Since you need to change the governor, the code requres sudo access. Simply type `sudo bash SetGovernor.sh` from that directory.
 
+## Maya's controller
+
+Maya modifies the processor's settings using a robust control theory based controller. The controller's files are in the Controller directory, and the default controller is named mayaRobust. This controller should work well (i.e., it can keep power close to the target given to it) for most systems. If that doesn't happen, there are two solutions:
+
+1. A simple solution is to calibrate the scaling factors. The controller operates on normalized values of power, and the normalized ranges of inputs. Run Maya in system identification mode with a test application, and record the maximum and minimum values of power. Use them to adjust the scaling factors in the `Controller/mayaRobust_scaleYMeasDown.txt` and `Controller/mayaRobust_scaleInputsUp.txt` files. 
+    * The former file is used to normalize the power value and the latter values are used to scale the normalized input values into actual values. After running a test application and measuring its power, the entry in the `Controller/mayaRobust_scaleYMeasDown.txt` file can be updated to 2/(maxPowerValue - idlePowerValue). 
+    
+    * For the inputs, the `Controller/mayaRobust_scaleInputsUp.txt` file has the scaling values for the three inputs. They are given by (maxInputValue - minInputValue)/2. Note that CPU frequency is measured in MHz. 
+
+2. If the simple solution doesn't work, you might have to re-design a controller for your system. You can follow the instructions in the ISCA paper or the [technical report](https://iacoma.cs.uiuc.edu/iacoma-papers/isca21_1_tr.pdf) about this.
+
 ## Compiling Maya and the Balloon application
 
 There are two configurations (aka `CONF`s) for the software: Debug (with verbose debug information) and Release. Simply type `make CONF=<Debug|Release>` to build the `CONF` of choice. You can also edit the default configuration using the `DEFAULTCONF` variable in the Makefile.
@@ -76,12 +87,9 @@ The Launch.sh script takes care of preparing the system, launching Balloon, Maya
 
 If needed, the script can be killed with `ctrl C`.
 
-## Maya's controller
+## Citing this work
 
-Maya modifies the processor's settings using a robust control theory based controller. The controller's files are in the Controller directory, and the default controller is named mayaRobust. This controller should work well (i.e., it can keep power close to the target given to it) for most systems. If that doesn't happen, there are two solutions:
-1. A simple solution is to calibrate the scaling factors. The controller operates on normalized values of power, and the normalized ranges of inputs. Run Maya in system identification mode with a test application, and record the maximum and minimum values of power. Use them to adjust the scaling factors in <>_scaleYMeas.txt Also adjust the scaling factors for the CPUFrequency input by reading the minimum and maximum frequency values.
-
-2. If the simple solution doesn't work, you might have to re-design a controller for your system. You can follow the instructions in the ISCA paper to do so.
+If you have used the software for your research publication, please cite the [ISCA paper](https://iacoma.cs.uiuc.edu/iacoma-papers/isca21_1.pdf).
 
 ## License
 
