@@ -12,3 +12,5 @@ nbdist/
 /.vscode/
 /ControlDesign/
 /MatlabSessions/
+/Scripts/plotTemporal.py
+/Scripts/plotTemporalAll.py
