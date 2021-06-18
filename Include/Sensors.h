@@ -23,9 +23,8 @@
  * readFromSystem() function. This function is used to read the sensor value from 
  * the appropriate system counters/files.
  * 
- * There are two sensors defined here: Time, Power. A few other sensors: CPU Temperature,  
- * Performance (Throughput, in Billions of Instructions Per Second (BIPS))are 
- * commented but can be enabled for other purposes if desired.
+ * There are two sensors defined here: Time, Power. Other sensors can be used 
+ * for other purposes if desired.
  */
 
 #ifndef SENSORS_H
@@ -89,95 +88,4 @@ private:
     double energyCtr;
 };
 
-/*
-
-//Hottest core temperature - one value
-class CPUTempSensor : public Sensor {
-public:
-    CPUTempSensor(std::string name);
-protected:
-    void readFromSystem() override;
-private:
-    std::vector<std::string> coretempDirNames = {"/sys/devices/platform/coretemp.0/hwmon/hwmon0/",
-    "/sys/devices/platform/coretemp.0/hwmon/hwmon1/",
-    "/sys/devices/platform/coretemp.1/hwmon/hwmon1/"};
-    std::vector<std::string> tempFileNames;
-    Vector coreTemps; //individual core temperatures
-};
-
-class DRAMPowerSensor : public Sensor {
-public:
-    DRAMPowerSensor(std::string name);
-protected:
-    void readFromSystem() override;
-private:
-    std::string energyFileName = "/sys/class/powercap/intel-rapl/intel-rapl:0/intel-rapl:0:1/energy_uj";
-    double energyCtr;
-};
- 
-//For help with Linux Perf Counters:
-//http://web.eece.maine.edu/~vweaver/projects/perf_events/perf_event_open.html
-class PerfStatCounters {
-public:
-    PerfStatCounters(uint32_t coreId, std::initializer_list<perf_type_id> typeIds, std::initializer_list<perf_hw_id> ctrNames);
-    void createCounterFds(uint32_t coreId, std::initializer_list<perf_type_id> typeIds, std::initializer_list<perf_hw_id> ctrNames);
-    // void createCounterFds(uint32_t coreId, std::initializer_list<perf_type_id> typeIds, 
-    //std::initializer_list<perf_hw_cache_id> cacheIds, std::initializer_list<perf_hw_cache_op_id> operationTypes, 
-    //std::initializer_list<perf_hw_cache_op_result_id> ctrNames);
-    void enable();
-    void reenable();
-    void disable();
-    void updateCounters();
-    Vector getValues();
-    Vector getDeltaValues();
-    double getValue(uint32_t ctrNum);
-private:
-    std::vector<int> fds;
-    std::vector<uint64_t> values, prevValues;
-};
-
-class CorePerfSensor : public Sensor {
-public:
-    CorePerfSensor(std::string name, uint32_t coreId);
-    virtual ~CorePerfSensor();
-
-protected:
-    void readFromSystem() override;
-
-private:
-    void handleReactivation();
-    void handleShutDown();
-    uint32_t coreId;
-    std::unique_ptr<PerfStatCounters> instCtr, cacheCtr;
-    bool shutDown;
-    double coreBips, coreMpki;
-};
-
-class CPUPerfSensor : public Sensor {
-public:
-    CPUPerfSensor(std::string name, std::vector<uint32_t> coreIds);
-    virtual ~CPUPerfSensor();
-
-protected:
-    void readFromSystem() override;
-
-private:
-    void handleReactivation(uint32_t coreId);
-    void handleShutDown(uint32_t coreId);
-    std::vector<uint32_t> coreIds;
-    std::vector<std::unique_ptr<PerfStatCounters>> instCtr;
-    std::vector<bool> shutDown; //keep track of which cores are shutdown, because
-    //the counters must be re-enabled upon re-activation
-    Vector coreBips;
-};
-
-class Dummy {
-public:
-    Vector readInputs();
-    std::shared_ptr<InputPort> inp;
-    Dummy(std::string name);
-    Dummy(std::string name, std::initializer_list<std::string> portNames);
-};
-
-*/
 #endif /* SENSORS_H */

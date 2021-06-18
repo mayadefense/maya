@@ -35,10 +35,10 @@
  * A new input class must also define the allowed values for that input, and the 
  * min, max and mid values of this range.
  * 
- * There are three inputs defined here: CPUFreq, Power. A few other sensors: CPU Temperature,  
- * Performance (Throughput, in Billions of Instructions Per Second (BIPS))are 
- * commented but can be enabled for other purposes if desired.
+ * There are three inputs defined here: CPUFreq, Power. Other inputs can be added 
+ * for other purposes if desired.
  */
+
 //Children must fill allowedValues, and define the apply, read functions
 
 class Input : public Sensor {
@@ -130,28 +130,4 @@ protected:
     std::string pbFileName = "/dev/shm/powerBalloon.txt", pbMaxFileName = "/dev/shm/powerBalloonMax.txt";
 };
 
-/*
-class NumCores : public Input {
-public:
-    NumCores(std::string name);
-protected:
-    void writeToSystem() override;
-    void readFromSystem() override;
-
-private:
-    uint32_t numCores;
-    std::string onlineCoreFileName = "/sys/devices/system/cpu/online";
-    std::string presentCoreFileName = "/sys/devices/system/cpu/present";
-    std::string coreStatusFileNamePrefix = "/sys/devices/system/cpu/cpu";
-    std::string coreStatusFileNamePostfix = "/online";
-};
-
-class DummySrc {
-public:
-    void genValues();
-    std::shared_ptr<OutputPort> op;
-    DummySrc(std::string name);
-    DummySrc(std::string name, std::initializer_list<std::string> portNames);
-};
-*/
 #endif /* INPUTS_H */

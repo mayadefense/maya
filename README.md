@@ -91,6 +91,10 @@ If needed, the script can be killed with `ctrl C`.
 
 If you have used the software for your research publication, please cite the [ISCA paper](https://iacoma.cs.uiuc.edu/iacoma-papers/isca21_1.pdf).
 
+## Contact
+
+If you have questions about he code, you can create an issue in the repo, or contact [Raghavendra Pradyumna Pothukuchi](https://www.cs.yale.edu/homes/raghav/)
+
 ## License
 
 [UIUC/NCSA](https://choosealicense.com/licenses/ncsa/)

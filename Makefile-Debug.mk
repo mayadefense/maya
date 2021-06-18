@@ -13,7 +13,6 @@ OBJECTFILES= \
         ${OBJECTDIR}/Source/MathSupport.o \
         ${OBJECTDIR}/Source/Planner.o \
         ${OBJECTDIR}/Source/Sensors.o \
-        ${OBJECTDIR}/Source/SystemStatus.o \
         ${OBJECTDIR}/Source/main.o
 
 BALLOONOBJ=${OBJECTDIR}/Balloon/Balloon.o
@@ -73,12 +72,6 @@ ${OBJECTDIR}/Source/Sensors.o: Source/Sensors.cpp
 	${MKDIR} -p ${OBJECTDIR}/Source
 	${RM} "$@.d"
 	$(COMPILE.cc) -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Source/Sensors.o Source/Sensors.cpp
-
-
-${OBJECTDIR}/Source/SystemStatus.o: Source/SystemStatus.cpp
-	${MKDIR} -p ${OBJECTDIR}/Source
-	${RM} "$@.d"
-	$(COMPILE.cc) -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Source/SystemStatus.o Source/SystemStatus.cpp
 
 ${OBJECTDIR}/Source/main.o: Source/main.cpp
 	${MKDIR} -p ${OBJECTDIR}/Source
