@@ -84,7 +84,7 @@ NUM_CORES="$(nproc --all)"
 BALLOON_NAME="Balloon"
 BALLOON_CMD="./${BALLOON_NAME} ${NUM_CORES}"
 MAYA_NAME="Maya"
-MAYA_CMD="LD_LIBRARY_PATH=/software/gcc-9.2.0/lib64/:\$LD_LIBRARY_PATH ./${MAYA_NAME} ${MAYA_OPTS}"
+MAYA_CMD="LD_LIBRARY_PATH=<PATH TO LIB64 directory that contains libstdc++.so (usually /usr/lib64/)>:\$LD_LIBRARY_PATH ./${MAYA_NAME} ${MAYA_OPTS}"
 
 OUTFILE="/dev/null" #File where the output of the application run with Maya is stored
 LOGFILE="/dev/null" #File where the output of Maya is stored
@@ -181,18 +181,17 @@ trap stopall SIGINT
 stopall
 startall
 
-if [[ "$APPS" == "parsec" ]]; then
-		su pothuku2 -c "/home/pothuku2/Research/visakha/apps/parsec/parsec-3.0/bin/parsecmgmt -a run -p apps -i native -n $NUM_CORES -k  > $OUTFILE"
-		#su <userid> -c "cmdline" > $OUTFILE
-        #shuffle app order
-		#parsec_apps=( "splash2x.volrend" "parsec.streamcluster"  "parsec.canneal" "parsec.blackscholes" "parsec.bodytrack" "parsec.freqmine" "parsec.raytrace" "parsec.vips" "splash2x.radiosity" "splash2x.water_nsquared" "splash2x.water_spatial" )
-		#parsec_apps=( $(shuf -e "${parsec_apps[@]}") )
-		#su pothuku2 -c "${appDir}/parsec/parsec-3.0/bin/parsecmgmt -a run -p  ${parsec_apps} -i native -n $numCores -k  >> $outFile"
+if [[ "$APPS" == "yourapp" ]]; then
+    #su <userid> -c "cmdline for your app" > $OUTFILE
 	sleep 1
-elif [[ "$APPS" == "balloonid" ]];then
-		su pothuku2 -c "/home/pothuku2/Research/visakha/apps/demo/runSingle   >> $OUTFILE"
 elif [[ "$APPS" == "empty" ]];then
-		su pothuku2 -c "/home/pothuku2/Research/visakha/apps/empty/runEmpty   >> $OUTFILE"
+    echo -n "Starting app empty at time " > $OUTFILE
+    date +%s.%N >> $OUTFILE
+    
+    sleep 10 >> $OUTFILE
+    
+    echo -n "Completed app empty at time " >> $OUTFILE
+    date +%s.%N >> $OUTFILE
 else
     sleep 2
 fi
