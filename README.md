@@ -35,7 +35,7 @@ Maya modifies the processor's settings using a robust control theory based contr
 1. A simple solution is to calibrate the scaling factors. The controller operates on normalized values of power and the inputs. Run Maya in system identification mode with a test application, and record the maximum and minimum values of power and CPU frequency. Use them to adjust the scaling factors in the `Controller/mayaRobust_scaleYMeasDown.txt` and `Controller/mayaRobust_scaleInputsUp.txt` files. 
     * After running a test application and measuring its power, the entry in the `Controller/mayaRobust_scaleYMeasDown.txt` file can be updated to `2/(maxPowerValue - idlePowerValue)`. 
     
-    * For the inputs, the `Controller/mayaRobust_scaleInputsUp.txt` file has the scaling values for the three inputs. They are given by `(maxInputValue - minInputValue)/2` for each input. You will only need to change the first value which corresponds to CPU frequency (it is measured in MHz). 
+    * For the inputs, the `Controller/mayaRobust_scaleInputsUp.txt` file has the scaling values for the three inputs. They are given by `(maxInputValue - minInputValue)/2` for each input. You will only need to change the first value which corresponds to CPU frequency (it is measured in kHz). 
 
 2. If the simple solution doesn't work, you might have to re-design a controller for your system. You can follow the instructions in the ISCA paper and the [technical report](https://iacoma.cs.uiuc.edu/iacoma-papers/isca21_1_tr.pdf) for this.
 
